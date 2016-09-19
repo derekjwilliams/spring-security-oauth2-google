@@ -28,9 +28,9 @@ public class UserResource {
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<String> findUsersStartingWithPrefix(@RequestParam("term") String usernamePrefix) throws JsonProcessingException {
         LOGGER.info("Searching for users starting with {}", usernamePrefix);
-        List<String> list = newArrayList("user@email.com", "user2@email.com");
+        final List<String> list = newArrayList("user@email.com", "user2@email.com");
 
-        GoogleProfile profile = getGoogleProfile();
+        final GoogleProfile profile = getGoogleProfile();
         LOGGER.info("Google Profile Data {}", OM.writerWithDefaultPrettyPrinter().writeValueAsString(profile));
         list.add(profile.getEmail());
 
@@ -39,8 +39,8 @@ public class UserResource {
     }
 
     private GoogleProfile getGoogleProfile() {
-        String url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + oauth2RestTemplate.getAccessToken();
-        ResponseEntity<GoogleProfile> forEntity = oauth2RestTemplate.getForEntity(url, GoogleProfile.class);
+        final String url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + oauth2RestTemplate.getAccessToken();
+        final ResponseEntity<GoogleProfile> forEntity = oauth2RestTemplate.getForEntity(url, GoogleProfile.class);
         return forEntity.getBody();
     }
 }
